@@ -1,17 +1,21 @@
-﻿using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using WinRTServer;
 
 unsafe
 {
     PInvoke.RoInitialize(PInvoke.RO_INIT_TYPE.RO_INIT_MULTITHREADED);
 
-    if (PInvoke.WindowsCreateString("WinRTServer.TestClass", (uint)"WinRTServer.TestClass".Length, out var classId) != 0)
+    if (PInvoke.WindowsCreateString("WinRTServer.TestClass", (uint)"WinRTServer.TestClass".Length, out var classId1) != 0)
     {
         Console.WriteLine("Failed to create string.");
     }
 
-    if (PInvoke.RoRegisterActivationFactories([classId], [InternalModule.GetActivationFactory], out var cookie) != 0)
+    if (PInvoke.WindowsCreateString("WinRTServer.CalcClass", (uint)"WinRTServer.CalcClass".Length, out var classId2) != 0)
+    {
+        Console.WriteLine("Failed to create string.");
+    }
+
+    if (PInvoke.RoRegisterActivationFactories([classId1, classId2], [InternalModule.GetActivationFactory, InternalModule.GetActivationFactory], out var cookie) != 0)
     {
         Console.WriteLine("Failed to register activation factories.");
     }

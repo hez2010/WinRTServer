@@ -51,6 +51,7 @@
         <Path>WinRTServer\WinRTServer.exe</Path>
         <Instancing>singleInstance</Instancing>
         <ActivatableClass ActivatableClassId="WinRTServer.TestClass" />
+        <ActivatableClass ActivatableClassId="WinRTServer.CalcClass" />
       </OutOfProcessServer>
     </Extension>
   </Extensions>
