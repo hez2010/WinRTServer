@@ -26,7 +26,7 @@ WinRT allows for more complicated objects, where the returned types can have met
 
 ### Server project
 
-The server project need to provide the implementation of types, and it uses CsWinRT to automatically generate interop code and winmd file, where the winmd file is served as a contrast to be used between server and clients.
+The server project needs to provide the implementation of types, and it uses CsWinRT to automatically generate interop code and winmd file, where the winmd file is served as a contract to be used between server and clients.
 
 Structs, classes and delegates are supported, to add a type in the WinRT server:
 1. If you are adding a class, it must be sealed, and make sure you also add the type as an `ActivatableClass` in `Package.appxmanifest` under `OutOfProcessServer` and register an activation factory for it in the `RoRegisterActivationFactories` call. 
