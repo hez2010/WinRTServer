@@ -1,28 +1,36 @@
 ﻿using System.Runtime.InteropServices;
 using WinRTServer;
 
-unsafe
+class Program
 {
-    PInvoke.RoInitialize(PInvoke.RO_INIT_TYPE.RO_INIT_MULTITHREADED);
-
-    if (PInvoke.WindowsCreateString("WinRTServer.TestClass", (uint)"WinRTServer.TestClass".Length, out var classId1) != 0)
+    // only used for out-of-process WinRT server
+    static void Main(string[] args)
     {
-        Console.WriteLine("Failed to create string.");
-    }
+        unsafe
+        {
+            PInvoke.RoInitialize(PInvoke.RO_INIT_TYPE.RO_INIT_MULTITHREADED);
 
-    if (PInvoke.WindowsCreateString("WinRTServer.CalcClass", (uint)"WinRTServer.CalcClass".Length, out var classId2) != 0)
-    {
-        Console.WriteLine("Failed to create string.");
-    }
+            if (PInvoke.WindowsCreateString("WinRTServer.TestClass", (uint)"WinRTServer.TestClass".Length, out var classId1) != 0)
+            {
+                Console.WriteLine("Failed to create string.");
+            }
 
-    if (PInvoke.RoRegisterActivationFactories([classId1, classId2], [InternalModule.GetActivationFactory, InternalModule.GetActivationFactory], out var cookie) != 0)
-    {
-        Console.WriteLine("Failed to register activation factories.");
-    }
+            if (PInvoke.WindowsCreateString("WinRTServer.CalcClass", (uint)"WinRTServer.CalcClass".Length, out var classId2) != 0)
+            {
+                Console.WriteLine("Failed to create string.");
+            }
 
-    Console.WriteLine("Waiting for class activation. Press any key to exit the server.");
-    Console.ReadLine();
+            if (PInvoke.RoRegisterActivationFactories([classId1, classId2], [InternalModule.GetActivationFactory, InternalModule.GetActivationFactory], out var cookie) != 0)
+            {
+                Console.WriteLine("Failed to register activation factories.");
+            }
+
+            Console.WriteLine("Server is ready. Press any key to exit the server.");
+            Console.ReadLine();
+        }
+    }
 }
+
 
 internal partial class PInvoke
 {

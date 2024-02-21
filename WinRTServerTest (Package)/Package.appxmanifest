@@ -46,6 +46,16 @@
   </Applications>
 
   <Extensions>
+    <!-- Uncomment below if you want to use in-process WinRT server -->
+    <!--<Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>WinRTServer\WinRT.Host.dll</Path>
+        <ActivatableClass ActivatableClassId="WinRTServer.TestClass" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="WinRTServer.CalcClass" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>-->
+    
+    <!-- Comment below if you want to use in-process WinRT server -->
     <Extension Category="windows.activatableClass.outOfProcessServer">
       <OutOfProcessServer ServerName="WinRTServer" uap5:IdentityType="activateAsPackage" uap5:RunFullTrust="true">
         <Path>WinRTServer\WinRTServer.exe</Path>

@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
+﻿using Windows.Foundation;
 
 namespace WinRTServer
 {
@@ -32,15 +31,17 @@ namespace WinRTServer
             Console.WriteLine("HelloAsync has been called.");
             Console.WriteLine($"Calling into the client, result = {func(x, y)}");
 
-            return AsyncInfo.Run(async token =>
+            async Task<HelloStruct> HelloAsyncCore(BinaryDelegate func, int x, int y)
             {
-                await Task.Delay(1000, token);
+                await Task.Delay(1000);
                 return new HelloStruct
                 {
                     Message = "Hello from server",
                     Duration = TimeSpan.FromSeconds(1)
                 };
-            });
+            }
+
+            return HelloAsyncCore(func, x, y).AsAsyncOperation();
         }
     }
 }
