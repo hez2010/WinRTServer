@@ -33,7 +33,7 @@ WinRT allows for more complicated objects, where the returned types can have met
 The server project needs to provide the implementation of types, and it uses CsWinRT to automatically generate interop code and winmd file, where the winmd file is served as a contract to be used between server and clients.
 
 Structs, classes and delegates are supported, to add a type in the WinRT server:
-1. If you are adding a class, it must be sealed, and make sure you also add the type as an `ActivatableClass` in `Package.appxmanifest` under `OutOfProcessServer` and register an activation factory for it in the `RoRegisterActivationFactories` call. 
+1. If you are adding a class, it must be sealed, and make sure you also add the type as an `ActivatableClass` in `Package.appxmanifest` under `OutOfProcessServer` (or `InProcessServer` if you are using the in-proc server), and if you are using the out-of-proc WinRT server, you also need to register an activation factory for it in the `RoRegisterActivationFactories` call. 
 3. Methods, properties and events for both static and non-static are supported, but the type must have a projection (primitive types, types that have a [.NET/WinRT mapping](https://learn.microsoft.com/en-us/windows/apps/develop/platform/csharp-winrt/net-mappings-of-winrt-types), WinRT types and types defined in the server project) before it can be used in the signature. 
 
 ### Client project
@@ -51,6 +51,6 @@ To switch the out-of-process WinRT server to in-process WinRT server:
 
 Current the DesktopBridge project system (i.e. wapproj) has two issues need to workaround.
 
-1. The winmd needs to be removed from `_AppxWinmdFilesToHarvest`, see the target `RemoveOutOfProcWinMD` in the wapproj. Otherwise an incorrect `inProcessServer` entry will be added to the manifest despite there's no `inProcessServer` at all, which will make the build fail. This is because the project system assumes all winmd references are meant to be in-process servers, while we are actually using an out-of-process server.
+1. The winmd needs to be removed from `_AppxWinmdFilesToHarvest`, see the target `RemoveWinMDRefForManifestAutoGen` in the wapproj. Otherwise an incorrect `inProcessServer` entry will be added to the manifest despite there's no `inProcessServer` at all, which will make the build fail. 
 2. The server project also needs to include the winmd file in the `ItemGroup`, otherwise the server implementation (i.e. `WinRTServer.dll` in this demo) will be removed from the package layout if you publish it to appx package, which can lead to failure while starting the server. This is because in the in-process server case, the server implementation should be placed next to the client as it will be loaded into the client process, however, it's not the case for out-of-process. Here the toolchain again assumes we are using an in-process server and does this unnecessary thing for us.
 
