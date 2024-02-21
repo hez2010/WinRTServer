@@ -51,6 +51,6 @@ To switch the out-of-process WinRT server to in-process WinRT server:
 
 Current the DesktopBridge project system (i.e. wapproj) has two issues need to workaround.
 
-1. The winmd needs to be removed from `_AppxWinmdFilesToHarvest`, see the target `RemoveWinMDRefForManifestAutoGen` in the wapproj. Otherwise an incorrect `inProcessServer` entry will be added to the manifest despite there's no `inProcessServer` at all, which will make the build fail. 
+1. The winmd needs to be removed from `_AppxWinmdFilesToHarvest`, see the target `RemoveWinMDRefForManifestAutoGen` in the wapproj. Otherwise an incorrect `inProcessServer` entry will be added to the manifest which will cause the build to fail. 
 2. The server project also needs to include the winmd file in the `ItemGroup`, otherwise the server implementation (i.e. `WinRTServer.dll` in this demo) will be removed from the package layout if you publish it to appx package, which can lead to failure while starting the server. This is because in the in-process server case, the server implementation should be placed next to the client as it will be loaded into the client process, however, it's not the case for out-of-process. Here the toolchain again assumes we are using an in-process server and does this unnecessary thing for us.
 
