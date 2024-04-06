@@ -15,12 +15,7 @@ class Program
                 Console.WriteLine("Failed to create string.");
             }
 
-            if (PInvoke.WindowsCreateString("WinRTServer.CalcClass", (uint)"WinRTServer.CalcClass".Length, out var classId2) != 0)
-            {
-                Console.WriteLine("Failed to create string.");
-            }
-
-            if (PInvoke.RoRegisterActivationFactories([classId1, classId2], [InternalModule.GetActivationFactory, InternalModule.GetActivationFactory], out var cookie) != 0)
+            if (PInvoke.RoRegisterActivationFactories([classId1], [InternalModule.GetActivationFactory], out var cookie) != 0)
             {
                 Console.WriteLine("Failed to register activation factories.");
             }
