@@ -11,7 +11,7 @@ Console.WriteLine("Calling into the class...");
 
 try
 {
-    obj.Test();
+    obj.Test(null);
 }
 catch (Exception e)
 {

@@ -1,4 +1,5 @@
-﻿using Windows.Foundation;
+﻿using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
 
 namespace WinRTServer
 {
@@ -9,9 +10,9 @@ namespace WinRTServer
             Console.WriteLine("TestClass has been activated.");
         }
 
-        public void Test()
+        public void Test([ReadOnlyArray] int[] array)
         {
-            throw new Exception("Exception from server.");
+
         }
     }
 }
