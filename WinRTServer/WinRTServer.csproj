@@ -18,15 +18,20 @@
     <CsWinRTWindowsMetadata>10.0.22621.0</CsWinRTWindowsMetadata>
     <AssetTargetFallback>native;net481;$(AssetTargetFallback)</AssetTargetFallback>
     <CsWinRTEnableLogging>true</CsWinRTEnableLogging>
+    <PublishProfile>Properties\PublishProfiles\win-$(Platform).pubxml</PublishProfile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
+    <FrameworkReference Remove="Microsoft.Windows.SDK.NET.Ref" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7-private.3" />
     <None Include="bin/$(Platform)/$(Configuration)/$(TargetFramework)/win-$(Platform)/WinRTServer.winmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>%(Filename).winmd</Link>
       <Visible>false</Visible>
     </None>
+    <Reference Include="Microsoft.Windows.SDK.NET">
+      <HintPath>..\packages\Microsoft.Windows.SDK.NET.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
