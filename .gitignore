@@ -193,7 +193,6 @@ publish/
 PublishScripts/
 
 # NuGet Packages
-*.nupkg
 # NuGet Symbol Packages
 *.snupkg
 # except build/, which is used as an MSBuild target.
