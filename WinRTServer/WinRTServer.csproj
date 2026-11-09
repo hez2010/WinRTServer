@@ -7,9 +7,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsAotCompatible>true</IsAotCompatible>
     <CsWinRTComponent>true</CsWinRTComponent>
-    <SelfContained Condition="'$(OutputType)'=='Library'">false</SelfContained>
-    <SelfContained Condition="'$(OutputType)'!='Library'">true</SelfContained>
+    <CsWinRTAotWarningLevel>2</CsWinRTAotWarningLevel>
+    <SelfContained Condition="'$(OutputType)'=='Library' and '$(PublishAot)'!='true'">false</SelfContained>
+    <SelfContained Condition="'$(OutputType)'!='Library' and '$(PublishAot)'!='true'">true</SelfContained>
+    <NativeLib Condition="'$(OutputType)'=='Library' and '$(PublishAot)'=='true'">Shared</NativeLib>
     <Platforms>x86;x64;ARM64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <RuntimeIdentifier Condition="'$(PlatformTarget)'=='x86'">win-x86</RuntimeIdentifier>
@@ -28,5 +31,13 @@
       <Visible>false</Visible>
     </None>
   </ItemGroup>
+
+  <Target Name="GetWinRTServerPackageFiles" DependsOnTargets="ComputeFilesToPublish" Returns="@(_WinRTServerPackageFiles)">
+    <ItemGroup>
+      <_WinRTServerPackageFiles Include="@(ResolvedFileToPublish->'%(FullPath)')">
+        <TargetPath>%(ResolvedFileToPublish.RelativePath)</TargetPath>
+      </_WinRTServerPackageFiles>
+    </ItemGroup>
+  </Target>
 
 </Project>

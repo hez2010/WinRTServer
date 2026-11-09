@@ -16,7 +16,7 @@
   <mp:PhoneIdentity PhoneProductId="e229ca73-5354-4e80-b8dd-8a51a412fb35" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>WinRTServerTest (Package)</DisplayName>
+    <DisplayName>WinRTServerTest</DisplayName>
     <PublisherDisplayName>i</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -34,8 +34,8 @@
       Executable="WinRTServerTest.exe"
       EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
-        DisplayName="WinRTServerTest (Package)"
-        Description="WinRTServerTest (Package)"
+        DisplayName="WinRTServerTest"
+        Description="WinRTServerTest"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
@@ -47,6 +47,7 @@
 
   <Extensions>
     <!-- Uncomment below if you want to use in-process WinRT server -->
+    <!-- Also change the path to WinRTServer\WinRTServer.dll if you are using NativeAOT -->
     <!--<Extension Category="windows.activatableClass.inProcessServer">
       <InProcessServer>
         <Path>WinRTServer\WinRT.Host.dll</Path>

@@ -42,6 +42,18 @@ dotnet build WinRTServer.sln -c Release -p:Platform=x64 -p:GenerateAppxPackageOn
 
 Packages are written under `WinRTServerTest\AppPackages`. Sign the package with a trusted certificate before installing it outside Visual Studio.
 
+### NativeAOT publishing
+
+Install the Desktop development with C++ workload in Visual Studio to provide the native compiler and linker. Add the ARM64 C++ build tools when targeting ARM64.
+
+To compile both the client and server with NativeAOT and create an unsigned MSIX package:
+
+```powershell
+dotnet publish WinRTServerTest\WinRTServerTest.csproj -c Release -p:Platform=x64 -p:PublishAot=true -p:PublishAppxPackage=true
+```
+
+Use `x86` or `ARM64` for the corresponding platform. NativeAOT packages include the native executables and do not require an installed .NET runtime.
+
 ### Server project
 
 The server project needs to provide the implementation of types, and it uses CsWinRT to automatically generate interop code and winmd file, where the winmd file is served as a contract to be used between server and clients.
@@ -60,3 +72,5 @@ To switch the out-of-process WinRT server to in-process WinRT server:
 
 1. Change the OutputType of the server project to `Library`.
 2. Open `WinRTServerTest\Package.appxmanifest`, uncomment the in-process server manifest, and comment the out-of-process server manifest.
+
+For NativeAOT publishing, set the in-process server's manifest path to `WinRTServer\WinRTServer.dll`. For managed publishing, use `WinRTServer\WinRT.Host.dll`.

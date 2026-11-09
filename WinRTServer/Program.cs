@@ -20,13 +20,20 @@ class Program
                 Console.WriteLine("Failed to create string.");
             }
 
-            if (PInvoke.RoRegisterActivationFactories([classId1, classId2], [InternalModule.GetActivationFactory, InternalModule.GetActivationFactory], out var cookie) != 0)
+            void** classIds = stackalloc void*[2] { classId1, classId2 };
+            delegate* unmanaged[Stdcall]<void*, void**, int>* callbacks = stackalloc delegate* unmanaged[Stdcall]<void*, void**, int>[2]
+            {
+                &InternalModule.GetActivationFactory,
+                &InternalModule.GetActivationFactory
+            };
+
+            if (PInvoke.RoRegisterActivationFactories(classIds, callbacks, 2, out var cookie) != 0)
             {
                 Console.WriteLine("Failed to register activation factories.");
             }
 
             Console.WriteLine("Server is ready. Press any key to exit the server.");
-            Console.ReadLine();
+            Console.ReadKey();
         }
     }
 }
@@ -34,25 +41,9 @@ class Program
 
 internal partial class PInvoke
 {
-    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    internal unsafe delegate int PfnActivationFactoryCallback(void* classId, void** activationFactory);
-
-    internal static unsafe int RoRegisterActivationFactories(void*[] activatableClassIds, PfnActivationFactoryCallback[] activationFactoryCallbacks, out nint cookie)
-    {
-        fixed (nint* cookieLocal = &cookie)
-        {
-            fixed (void* activatableClassIdsLocal = activatableClassIds)
-            {
-                if (activatableClassIds.Length != activationFactoryCallbacks.Length) throw new ArgumentException();
-                int result = RoRegisterActivationFactories(activatableClassIdsLocal, activationFactoryCallbacks, (uint)activationFactoryCallbacks.Length, cookieLocal);
-                return result;
-            }
-        }
-    }
-
     [LibraryImport("api-ms-win-core-winrt-l1-1-0.dll")]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    internal static unsafe partial int RoRegisterActivationFactories(void* activatableClassIds, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2), In] PfnActivationFactoryCallback[] activationFactoryCallbacks, uint count, nint* cookie);
+    internal static unsafe partial int RoRegisterActivationFactories(void** activatableClassIds, delegate* unmanaged[Stdcall]<void*, void**, int>* activationFactoryCallbacks, uint count, out nint cookie);
 
     [LibraryImport("api-ms-win-core-winrt-l1-1-0.dll")]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]

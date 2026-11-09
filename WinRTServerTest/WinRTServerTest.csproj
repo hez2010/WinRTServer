@@ -5,15 +5,20 @@
     <TargetPlatformMinVersion>10.0.26100.0</TargetPlatformMinVersion>
     <Platforms>x86;x64;ARM64</Platforms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsAotCompatible>true</IsAotCompatible>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <RuntimeIdentifier Condition="'$(PlatformTarget)'=='x86'">win-x86</RuntimeIdentifier>
     <RuntimeIdentifier Condition="'$(PlatformTarget)'=='x64'">win-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="'$(PlatformTarget)'=='arm64'">win-arm64</RuntimeIdentifier>
     <CsWinRTIncludes>WinRTServer</CsWinRTIncludes>
+    <CsWinRTAotWarningLevel>2</CsWinRTAotWarningLevel>
     <CsWinRTWindowsMetadata>10.0.26100.0</CsWinRTWindowsMetadata>
     <WindowsSdkPackageVersion>10.0.26100.87</WindowsSdkPackageVersion>
     <EnableMsixTooling>true</EnableMsixTooling>
     <IncludePublishItemsOutputGroup>true</IncludePublishItemsOutputGroup>
+    <IncludeBuiltProjectOutputGroup Condition="'$(PublishAot)' == 'true'">false</IncludeBuiltProjectOutputGroup>
+    <IncludeCopyLocalFilesOutputGroup Condition="'$(PublishAot)' == 'true'">false</IncludeCopyLocalFilesOutputGroup>
+    <IncludeGetCopyToOutputDirectoryItemsOutputGroup Condition="'$(PublishAot)' == 'true'">false</IncludeGetCopyToOutputDirectoryItemsOutputGroup>
     <DefaultLanguage>ja-JP</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <AppxHarvestWinmdRegistration>false</AppxHarvestWinmdRegistration>
@@ -38,13 +43,14 @@
 
   <Target Name="IncludeWinRTServerInPackage" BeforeTargets="_ComputeAppxPackagePayload" DependsOnTargets="ResolveProjectReferences">
     <MSBuild Projects="@(ProjectReference)"
-             Targets="PublishItemsOutputGroup"
-             Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(RuntimeIdentifier)">
+             Targets="GetWinRTServerPackageFiles"
+             Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(RuntimeIdentifier);PublishAot=$(PublishAot)">
       <Output TaskParameter="TargetOutputs" ItemName="_WinRTServerPublishItems" />
     </MSBuild>
     <ItemGroup>
       <AppxPackagePayload Include="@(_WinRTServerPublishItems)">
         <TargetPath>WinRTServer\%(_WinRTServerPublishItems.TargetPath)</TargetPath>
+        <OutputGroup>PublishItemsOutputGroupOutput</OutputGroup>
       </AppxPackagePayload>
     </ItemGroup>
   </Target>

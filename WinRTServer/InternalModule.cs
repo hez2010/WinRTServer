@@ -1,10 +1,12 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using WinRT;
 
 namespace WinRTServer;
 
 unsafe class InternalModule
 {
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     public static int GetActivationFactory(void* activatableClassId, void** factory)
     {
         const int E_INVALIDARG = unchecked((int)0x80070057);
