@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "WinRTServerTest": {
+      "commandName": "MsixPackage"
+    }
+  }
+}

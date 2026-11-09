@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.26100.0</TargetPlatformMinVersion>
     <Platforms>x86;x64;ARM64</Platforms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
@@ -11,13 +12,19 @@
     <CsWinRTIncludes>WinRTServer</CsWinRTIncludes>
     <CsWinRTWindowsMetadata>10.0.26100.0</CsWinRTWindowsMetadata>
     <WindowsSdkPackageVersion>10.0.26100.87</WindowsSdkPackageVersion>
-    <AssetTargetFallback>native;net481;$(AssetTargetFallback)</AssetTargetFallback>
-
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <IncludePublishItemsOutputGroup>true</IncludePublishItemsOutputGroup>
+    <DefaultLanguage>ja-JP</DefaultLanguage>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxHarvestWinmdRegistration>false</AppxHarvestWinmdRegistration>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
-    <Manifest Include="$(ApplicationManifest)" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2957" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools.MSIX" Version="1.7.260930100" PrivateAssets="all" />
+    <ProjectReference Include="..\WinRTServer\WinRTServer.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <Content Include="Images\*.png" />
     <CsWinRTInputs Include="../WinRTServer/bin/$(Platform)/$(Configuration)/$(TargetFramework)/win-$(Platform)/WinRTServer.winmd">
       <Name>%(Filename)</Name>
       <IsWinMDFile>true</IsWinMDFile>
@@ -28,4 +35,17 @@
       <Visible>false</Visible>
     </None>
   </ItemGroup>
+
+  <Target Name="IncludeWinRTServerInPackage" BeforeTargets="_ComputeAppxPackagePayload" DependsOnTargets="ResolveProjectReferences">
+    <MSBuild Projects="@(ProjectReference)"
+             Targets="PublishItemsOutputGroup"
+             Properties="Configuration=$(Configuration);Platform=$(Platform);RuntimeIdentifier=$(RuntimeIdentifier)">
+      <Output TaskParameter="TargetOutputs" ItemName="_WinRTServerPublishItems" />
+    </MSBuild>
+    <ItemGroup>
+      <AppxPackagePayload Include="@(_WinRTServerPublishItems)">
+        <TargetPath>WinRTServer\%(_WinRTServerPublishItems.TargetPath)</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
+  </Target>
 </Project>

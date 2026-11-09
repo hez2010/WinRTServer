@@ -31,8 +31,8 @@
 
   <Applications>
     <Application Id="App"
-      Executable="$targetnametoken$.exe"
-      EntryPoint="$targetentrypoint$">
+      Executable="WinRTServerTest.exe"
+      EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
         DisplayName="WinRTServerTest (Package)"
         Description="WinRTServerTest (Package)"
