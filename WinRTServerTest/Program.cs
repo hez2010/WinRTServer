@@ -19,4 +19,5 @@ Console.WriteLine($"Get message \"{result.Message}\" after Task.Delay({result.Du
 
 Console.WriteLine(CalcClass.Add(12, 34));
 
+Console.WriteLine("Press any key to exit the client.");
 Console.ReadLine();
