@@ -22,7 +22,7 @@
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
   </Dependencies>
 
   <Resources>
@@ -57,7 +57,7 @@
     
     <!-- Comment below if you want to use in-process WinRT server -->
     <Extension Category="windows.activatableClass.outOfProcessServer">
-      <OutOfProcessServer ServerName="WinRTServer" uap5:IdentityType="activateAsPackage" uap5:RunFullTrust="true">
+      <OutOfProcessServer ServerName="WinRTServer" uap5:IdentityType="activateAsActivator">
         <Path>WinRTServer\WinRTServer.exe</Path>
         <Instancing>singleInstance</Instancing>
         <ActivatableClass ActivatableClassId="WinRTServer.TestClass" />

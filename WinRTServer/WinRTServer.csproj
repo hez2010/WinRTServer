@@ -3,7 +3,7 @@
   <PropertyGroup>
     <!-- Change the OutputType to 'Library' if you want to use in-process WinRT server -->
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -15,13 +15,13 @@
     <RuntimeIdentifier Condition="'$(PlatformTarget)'=='x86'">win-x86</RuntimeIdentifier>
     <RuntimeIdentifier Condition="'$(PlatformTarget)'=='x64'">win-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="'$(PlatformTarget)'=='arm64'">win-arm64</RuntimeIdentifier>
-    <CsWinRTWindowsMetadata>10.0.22621.0</CsWinRTWindowsMetadata>
-    <AssetTargetFallback>native;net481;$(AssetTargetFallback)</AssetTargetFallback>
+    <CsWinRTWindowsMetadata>10.0.26100.0</CsWinRTWindowsMetadata>
+    <WindowsSdkPackageVersion>10.0.26100.87</WindowsSdkPackageVersion>
     <CsWinRTEnableLogging>true</CsWinRTEnableLogging>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
     <None Include="bin/$(Platform)/$(Configuration)/$(TargetFramework)/win-$(Platform)/WinRTServer.winmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>%(Filename).winmd</Link>
